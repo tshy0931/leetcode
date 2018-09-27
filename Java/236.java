@@ -1,5 +1,14 @@
 /**
 Recursive:
+At each node n,
+a) if n is p or q, just return n. 
+Because if the other target node is in subtree of n, then n is the lowest common ancestor.
+Otherwise, some node upper in the tree will be the lowest common ancestor, which will be found later in recursion.
+
+b) if n is neither p or q, resursively find subtree at n.left and n.right.
+If both targets are found in left and right subtrees, n is the lowest common ancestor.
+Otherwise, return whichever node we found, or null if none.
+
 The current node root is ancestor of p and q if
 
 1) root is ancestor of p AND root is ancestor of q
