@@ -1,13 +1,7 @@
 /**
-Kind of like an Inorder traversal.
-1. create a stack to hold TreeNode's that we'll return later.
-2. in constructor, go from root node all the way to the leftmost leaf node, 
-   and push each of them onto stack. Just like an inorder traversal.
-3. Every time next() is called, we pop one TreeNode from the stack and will return its value. 
-   But before that we check, if it has right child node, say rChild, 
-   then we go from rChild all the way down to the leftmost leaf node under rChild, 
-   and push each of the nodes onto the stack.
-4. there's no more next node only when the stack is empty, hence the simple hasNext() implementation.
+In-order traversal provides the nodes in acending order.
+Max space usage is max tree height.
+And on average the next() method takes constant time.
 
  * Definition for binary tree
  * public class TreeNode {
@@ -17,35 +11,30 @@ Kind of like an Inorder traversal.
  *     TreeNode(int x) { val = x; }
  * }
  */
-import java.util.*;
 
 public class BSTIterator {
 
-    private Stack stack = null;
+    private Stack<TreeNode> stack;
     
     public BSTIterator(TreeNode root) {
-        this.stack = new Stack();
-        TreeNode p = root;
-        while(p!=null){
+        this.stack = new Stack<>();
+        for(TreeNode p = root; p != null; p = p.left){
             stack.push(p);
-            p = p.left;
         }
     }
 
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        return !stack.empty();
+        return !this.stack.isEmpty();
     }
 
     /** @return the next smallest number */
     public int next() {
-        TreeNode next = (TreeNode) stack.pop();
-        TreeNode p = next.right;
-        while(p!=null){
-            stack.push(p);
-            p = p.left;
+        TreeNode n = stack.pop();
+        for(TreeNode q=n.right; q!=null; q=q.left){
+            stack.push(q);
         }
-        return next.val;
+        return n.val;
     }
 }
 
